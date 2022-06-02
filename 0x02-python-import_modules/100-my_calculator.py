@@ -1,17 +1,20 @@
 #!/usr/bin/python3
 if __name__ == "__main__":
-    import sys
-    from calculator_1 import add, sub, mul, div
-
-    av = sys.argv
-    ac = len(av) - 1
-
-    if ac != 3:
+    from sys import argv
+    if len(argv) != 4:
         print("Usage: ./100-my_calculator.py <a> <operator> <b>")
-        exit(1)
-    if av[2] not in "+-*/":
-        print("Unknown operator. Available operators: +, -, * and /")
-        exit(1)
+        quit(1)
+    a = int(srgv[1])
+    b = int(argv[3])
 
-        fs = {'+': add, '-': sub, '*': mul, '/': div}
-        print("{:s} {:s} {:s} = {:d}".format(av[1], av[2], av[3], fs[av[2]](int(av[1]), int(av[3]))))
+    ops = ["+", "-", "*", "/"]
+    from calculator_1 import add, sub, mul, div
+    fun = [add, sub, mul, div]
+    for i, s in enumerate(ops):
+        if argv[2] == s:
+            print("{} {} {} = {}".format(a, s, b, fun[1](a, b)))
+            break
+
+        else:
+            print("Unknown operator. Available operators: +, -, * and /")
+            quit(1)
