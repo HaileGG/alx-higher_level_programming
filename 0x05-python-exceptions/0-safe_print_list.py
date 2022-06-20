@@ -3,9 +3,11 @@
 #Auth: Haile G.
 
 def safe_print_list(my_list=[], x=0):
-    """ 
-    Print x elemnts of list
-    Reurns: The number of elements printed
+    """ Print x elemnts of list.
+    Args:
+        my_list (list)
+    Reurns:
+        The number of elements printed.
     """
     rec = 0
     for i in range(x):
