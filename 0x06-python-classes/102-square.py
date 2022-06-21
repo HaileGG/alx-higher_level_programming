@@ -1,27 +1,54 @@
 #!/usr/bin/python3
-"""creates class Square with
-private instance attribute size and public instance method"""
+"""Define a square with stantard operations"""
 
 
 class Square:
-    """defines class with instantiated and validated private instance attribute
-and public instance method."""
+    """Class Square is created."""
 
-    def __init__(self, size=0):
-        self.__size = size
+    def __init__(self, size=0, position=(0, 0)):
+        """Initializes with a size"""
+        self.size = size
+        self.position = position
+
+    def __eq__(self, other):
+        """operators as functions two squares are equal."""
+        return self.__size == other.__size
+
+    def __ne__(self, other):
+        """operators as functions two squares are not equal."""
+        return self.__size != other.__size
+
+    def __lt__(self, other):
+        """operators as functions square 1 is less than square 2."""
+        return self.__size < other.__size
+
+    def __le__(self, other):
+        """functions square 1 is less than or equal to square 2."""
+        return self.__size <= other.__size
+
+    def __gt__(self, other):
+        """operators as functions square 1 is greater than square 2."""
+        return self.__size > other.__size
+
+    def __ge__(self, other):
+        """functions square 1 is greater than or equal to square 2."""
+        return self.__size >= other.__size
 
     @property
     def size(self):
-        return(self.__size)
+        """method to return size value."""
+        return self.__size
 
     @size.setter
     def size(self, value):
-        if type(value) is not int:
-            raise TypeError("size must be an integer")
-        elif value < 0:
-            raise ValueError("size must be >= 0")
+        """method to set a size value."""
+        if type(value) != int:
+            raise TypeError('size must be an integer')
+        if value < 0:
+            raise ValueError('size must be >= 0')
+            """Verify that size is not negative or 0"""
         self.__size = value
 
     def area(self):
-        """calculates and returns current square area"""
-        return(self.__size * self.__size)
+        """Return the area of the square"""
+        return self.__size**2
