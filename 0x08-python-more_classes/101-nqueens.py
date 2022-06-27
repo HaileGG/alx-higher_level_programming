@@ -1,56 +1,92 @@
 #!/usr/bin/python3
+"""Module finds all solutions for N queens problem"""
 
-"""
-module for calculation of n-queens problem
-"""
-import sys
 
-class Solution_Board:
-    """class for use with n queens problem
+def solve(queens, size, start):
+    """Recursive function to solve N queens problem
+    Args:
+        queens: number of queens to place
+        size: size of board
+    Returns True if valid move, False otherwise
     """
-    solutions = []
-
-    def __init__(self, num):
-        self.num = num
-
-    @property
-    def num(self):
-        return self.__num
-
-    @num.setter
-    def num(self, value):
-        if not isinstance(num, int):
-            raise TypeError("num should be an int")
-        self.__num = value
-
-args = sys.argv
-
-if len(args) != 2:
-    exit(1)
-if not args[1].isdigit():
-    print("N must be a number")
-    exit(1)
-
-num = int(args[1])
-if num < 4:
-    print("N must be at least 4")
-    exit(1)
-
-solutions = []
-board = [[0 for a in range(0, num)] for b in range(0, num)]
-running = True
-while running:
-    sol = get_n_queens(board)
-    solutions.append(sol)
-    running = False
-
-def get_n_queens(chess_board, column, num):
-    if column >= num:
+    if queens == 0:
         return True
-    for i in range(0, num):
-        if board_safe(chess_board, column):
-            chess_board[i][column] = 1
-            if get_n_queens(chess_board, column + 1):
-                return True
-            board[i][column] = 0
-    return False
+    if start[0] >= size or start[1] >= size:
+        return False
+    x = start[0]
+    y = start[1]
+    if board[x][y] == 0 and isValid(x, y, size):
+        board[x][y] = 1
+        if solve(queens - 1, size, (x + 1, 0)):
+            return True
+        board[x][y] = 0
+    return solve(queens, size, (x, y + 1))
+
+#    for x in range(start[0], size):
+#        for y in range(start[1], size):
+#            if board[x][y] == 0 and isValid(x, y, size):
+#                board[x][y] = 1
+#                if solve(queens - 1, size, (x + 1, 0)):
+#                    return True
+#                board[x][y] = 0
+#    return False
+
+
+def isValid(x, y, size):
+    """Returns whether a coordinate is valid and will not be attacked
+    Args:
+        x: x coordinate
+        y: y coordinate
+        size: size of board
+    Returns True if valid coordinate, False otherwise
+    """
+    for i in range(size):
+        if board[i][y] == 1 or board[x][i] == 1:
+            return False
+        dx = x + i
+        dy = y + i
+        if dx < size and dy < size and board[dx][dy] == 1:
+            return False
+        dx = x - i
+        dy = y - i
+        if dx > 0 and dy > 0 and board[dx][dy] == 1:
+            return False
+
+        for j in range(size):
+            if i + j == x + y and board[i][j] == 1:
+                return False
+            if i - j == x - y and board[i][j] == 1:
+                return False
+    return True
+
+if __name__ == "__main__":
+    from sys import argv
+
+    if len(argv) != 2:
+        print("Usage: nqueens N")
+        exit(1)
+
+    try:
+        n = int(argv[1])
+    except ValueError:
+        print("N must be a number")
+        exit(1)
+
+    if n < 4:
+        print("N must be at least 4")
+        exit(1)
+
+    start = (0, 0)
+    while start[1] < n:
+        solutions = []
+        board = [[0 for i in range(n)] for j in range(n)]
+        if solve(n, n, start):
+            for x in range(n):
+                for y in range(n):
+                    if board[x][y] == 1:
+                        solutions.append([x, y])
+            print(solutions)
+            sy = solutions[0][1]
+        else:
+            sy = start[1]
+        start = (0, sy + 1)
