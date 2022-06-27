@@ -1,114 +1,56 @@
 #!/usr/bin/python3
-"""This module gives solution to the N queens puzzle"""
+
+"""
+module for calculation of n-queens problem
+"""
 import sys
 
-
-def main():
-
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        exit(1)
-
-    if not (sys.argv[1]).isdigit():
-        print("N must be a number")
-        exit(1)
-
-    if int(sys.argv[1]) < 4:
-        print("N must be at least 4")
-        exit(1)
-
-    size = int(sys.argv[1])
-
-    i = 1
-    while i < size - 1:
-        result = []
-        init = [0, i]
-        result.append(init)
-        test_position(size, result)
-        i += 1
-
-
-def accept(i, j, result, size):
-    """accept position if is valid
-    Returns: True if accepted otherwise False.
+class Solution_Board:
+    """class for use with n queens problem
     """
-    decision = True
-    for l in result:
-        # Test vertical and horizontal
-        if i == l[0] or j == l[1]:
-            decision = False
-        elif diagonals_check(i, j, l, size) is True:
-            decision = False
-    return decision
+    solutions = []
 
+    def __init__(self, num):
+        self.num = num
 
-def diagonals_check(i, j, l, size):
-    """diagonals_check determine if position i,j is diagonal to reference value l
-    Args:
-        i ([type]): [description]
-        j ([type]): [description]
-        l ([type]): [description]
-    """
-    i_change = 0
-    j_change = 0
-    # Test diagonals positive values i and j
-    i_change = l[0]
-    j_change = l[1]
-    i_change += 1
-    j_change += 1
-    while i_change < size and j_change < size:
-        if i == i_change and j == j_change:
-            return True
-        i_change += 1
-        j_change += 1
-    # Test diagonals i positive values j negative values
-    i_change = l[0]
-    j_change = l[1]
-    i_change += 1
-    j_change -= 1
-    while i_change < size and j_change >= 0:
-        if i == i_change and j == j_change:
-            return True
-        i_change += 1
-        j_change -= 1
-    # Test diagonals j positive values i negative values
-    i_change = l[0]
-    j_change = l[1]
-    i_change -= 1
-    j_change += 1
-    while i_change >= 0 and j_change < size:
-        if i == i_change and j == j_change:
-            return True
-        i_change -= 1
-        j_change += 1
-    # Test diagonals both i and j negative values
-    i_change = l[0]
-    j_change = l[1]
-    i_change -= 1
-    j_change -= 1
-    while i_change >= 0 and j_change >= 0:
-        if i == i_change and j == j_change:
-            return True
-        i_change -= 1
-        j_change -= 1
+    @property
+    def num(self):
+        return self.__num
+
+    @num.setter
+    def num(self, value):
+        if not isinstance(num, int):
+            raise TypeError("num should be an int")
+        self.__num = value
+
+args = sys.argv
+
+if len(args) != 2:
+    exit(1)
+if not args[1].isdigit():
+    print("N must be a number")
+    exit(1)
+
+num = int(args[1])
+if num < 4:
+    print("N must be at least 4")
+    exit(1)
+
+solutions = []
+board = [[0 for a in range(0, num)] for b in range(0, num)]
+running = True
+while running:
+    sol = get_n_queens(board)
+    solutions.append(sol)
+    running = False
+
+def get_n_queens(chess_board, column, num):
+    if column >= num:
+        return True
+    for i in range(0, num):
+        if board_safe(chess_board, column):
+            chess_board[i][column] = 1
+            if get_n_queens(chess_board, column + 1):
+                return True
+            board[i][column] = 0
     return False
-
-
-def test_position(size, result):
-    """test_position [summary]
-    [extended_summary]
-    """
-    i = 0
-    # Test different positions
-    while i < size:
-        j = 0
-        while j < size:
-            if accept(i, j, result, size) is True:
-                new = [i, j]
-                result.append(new)
-                break
-            j += 1
-        i += 1
-    print(result)
-
-main()
