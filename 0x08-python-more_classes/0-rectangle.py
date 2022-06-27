@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-"""
-Module creates the Rectangle class
-"""
 
-class Rectangle:
-    """Empty class Rectangle"""
+
+class Rectangle():
+    """empty rectangle class for later use
+    """
     pass
