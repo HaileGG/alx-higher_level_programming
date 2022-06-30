@@ -1,3 +1,4 @@
+=============================
 The ``100-matrix.mul`` module
 =============================
 This module contains only one function: matrix_mul.
