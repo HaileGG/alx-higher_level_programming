@@ -7,10 +7,11 @@ Module with class MyList
 
 
 class MyList(list):
-    """Class with method print_sorted"""
-    pass
+    """a subclass of list"""
+    def __init__(self):
+        """initializes the object"""
+        super().__init__()
 
     def print_sorted(self):
-        """Methot that sorted a list"""
-
-        print(sorted(list(self)))
+        """prints the sorted list"""
+        print(sorted(self))
