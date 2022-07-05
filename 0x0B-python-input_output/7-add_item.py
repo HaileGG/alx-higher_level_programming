@@ -1,35 +1,25 @@
 #!/usr/bin/python3
+"""module for taking arguments and adds to a list, saves to file
 """
-    6-from_json_string.py
-    Function that writes an Object to \
-    a text file, using a JSON representation.
-"""
+
+
 import sys
-import json
 save_to_json_file = __import__('7-save_to_json_file').save_to_json_file
 load_from_json_file = __import__('8-load_from_json_file').load_from_json_file
 
 
-def create_file_list():
-    """Adds all arguments to a Python list, and then save them to a file"""
-    obj_9 = load_from_json_file("add_item.json")
-
-    for i in range(1, len(sys.argv)):
-        obj_9.append(str(sys.argv[i]))
-
-    save_to_json_file(obj_9, "add_item.json")
-
-if len(sys.argv) < 2:
+def main():
+    """contain main code in function
+    """
     try:
-        f = open("add_item.json")
-        f.close()
-    except IOError:
-        save_to_json_file([], "add_item.json")
-else:
+        new_list = load_from_json_file('add_item.json')
+    except:  # file didn't exist to read from
+        new_list = []
+
+    new_list.extend([sys.argv[i] for i in range(0, len(sys.argv)) if i != 0])
     try:
-        f = open("add_item.json")
-        f.close()
-        create_file_list()
-    except IOError:
-        save_to_json_file([], "add_item.json")
-        create_file_list()
+        save_to_json_file(new_list, 'add_item.json')
+    except:
+        pass
+
+main()
