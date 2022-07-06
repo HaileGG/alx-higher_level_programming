@@ -1,25 +1,20 @@
 #!/usr/bin/python3
 """module for taking arguments and adds to a list, saves to file
 """
-
-
 import sys
+
 save_to_json_file = __import__('7-save_to_json_file').save_to_json_file
 load_from_json_file = __import__('8-load_from_json_file').load_from_json_file
 
+try:
+    lst = load_from_json_file("add_item.json")
+except:
+    lst = []
 
-def main():
-    """contain main code in function
-    """
-    try:
-        new_list = load_from_json_file('add_item.json')
-    except:  # file didn't exist to read from
-        new_list = []
+    argc = len(sys.argv)
 
-    new_list.extend([sys.argv[i] for i in range(0, len(sys.argv)) if i != 0])
-    try:
-        save_to_json_file(new_list, 'add_item.json')
-    except:
-        pass
+    if argc > 1:
+        for i in range(1, argc):
+            lst.append(sys.argv[i])
 
-main()
+save_to_json_file("lst, add_item.json")
