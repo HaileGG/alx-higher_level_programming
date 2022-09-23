@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-takes in a string and sends a search request to the Star Wars API
+takes your Github credentials (username and password) and uses the
+Github API to display your id
 """
 import requests
 from sys import argv
@@ -8,16 +9,14 @@ from sys import argv
 
 if __name__ == "__main__":
     """
-    takes in a string and sends a search request to the Star Wars API
+    takes your Github credentials (username and password) and uses the
+    Github API to display your id
     """
-    url = 'https://swapi.co/api/people/?search={}'.format(argv[1])
-
-    r = requests.get(url)
+    username = argv[1]
+    password = argv[2]
+    url = 'https://api.github.com/user'
+    r = requests.get(url, auth=(username, password))
     try:
-        res_list = r.json().get('results')
-        res_count = r.json().get('count')
-        print("Number of results: {}".format(res_count))
-        for i in range(len(res_list)):
-            print(res_list[i].get('name'))
+        print(r.json().get('id'))
     except:
         pass
