@@ -1,11 +1,13 @@
 #!/usr/bin/node
+// Write a script that reads and prints the content of a file
 
 const fs = require('fs');
+const filepath = process.argv[2];
 
-fs.readFile(process.argv[2], 'utf-8', function (err, result) {
+fs.readFile(filepath, 'utf-8', (err, contents) => {
   if (err) {
     console.log(err);
   } else {
-    console.log(result);
+    console.log(contents);
   }
 });
